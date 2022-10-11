@@ -16,9 +16,13 @@ require (
 	github.com/golang/snappy v0.0.3 // indirect
 	github.com/gorilla/schema v1.2.0 // indirect
 	github.com/harranali/authority v1.1.0
+	github.com/howeyc/fsnotify v0.9.0 // indirect
 	github.com/jinzhu/gorm v1.9.2
 	github.com/julianfrank/console v0.0.0-20200620072909-d7afeac7f121 // indirect
 	github.com/klauspost/compress v1.15.11 // indirect
+	github.com/mattn/go-colorable v0.1.13 // indirect
+	github.com/pilu/config v0.0.0-20131214182432-3eb99e6c0b9a // indirect
+	github.com/pilu/fresh v0.0.0-20190826141211-0fa698148017 // indirect
 	github.com/swaggo/files v0.0.0-20220728132757-551d4a08d97a // indirect
 	github.com/swaggo/swag v1.8.6
 	github.com/timsolov/rest-query-parser v1.9.9 // indirect
@@ -28,5 +32,6 @@ require (
 	golang.org/x/sys v0.0.0-20220928140112-f11e5e49a4ec // indirect
 	golang.org/x/tools v0.1.12 // indirect
 	gorm.io/driver/mysql v1.2.2
-	gorm.io/gorm v1.22.4
+	gorm.io/driver/sqlite v1.4.2
+	gorm.io/gorm v1.24.0
 )

@@ -4,15 +4,17 @@ import (
 	"fmt"
 	"go_rest_monolith/config"
 	"go_rest_monolith/config/database"
+	"go_rest_monolith/config/migration"
+	"go_rest_monolith/routes"
 	"go_rest_monolith/utils"
 	"go_rest_monolith/utils/middleware/rbac"
-	"go_rest_monolith/routes"
 
 	"github.com/gofiber/fiber/v2"
 	//"github.com/gofiber/fiber/v2/middleware/cors"
+	_ "go_rest_monolith/docs"
+
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/swagger"
-	_ "go_rest_monolith/docs"
 )
 
 // @title 						Golang REST API
@@ -29,6 +31,7 @@ import (
 // @description 				TokenAuth protects our entity endpoints
 func main() {
 	database.ConnectDb()
+
 	app := fiber.New(fiber.Config{
 		ErrorHandler: utils.ErrorHandler,
 	})
@@ -40,6 +43,7 @@ func main() {
 	routes.UserRoutes(app)
 
 	rbac.InitRBAC()
+	migration.InitDefaultData()
 
 	app.Get("/swagger/*", swagger.HandlerDefault)
 

@@ -1,21 +1,23 @@
 package migration
 
 import (
-	"go_rest_monolith/types"
 	"go_rest_monolith/config/database"
+	"go_rest_monolith/types"
 	"go_rest_monolith/utils/middleware/rbac"
 )
 
-func initDefaultData() {
+func InitDefaultData() {
 	db := database.Gorm2
 
-	db.AutoMigrate(&types.User{})
+	if !db.Migrator().HasTable(&types.User{}) {
+		db.AutoMigrate(&types.User{})
+	}
 
-	countUser := 0
+	countUser := int64(0)
 	db.Model(types.User{}).Count(&countUser)
 	if countUser == 0 {
-		db.Create(types.User{ID: 1, name: "admin", email: "admin@local.com", user_group_id: 1,password: "$2a$10$6x81Z5jxljjGoZiPXcdEiOPKnPQEYetPxZkGOaLd/GCKXuBvwH7Vu"})
-		db.Create(types.User{ID: 2, name: "user", email: "user@local.com", user_group_id: 2, password: "$2a$10$6x81Z5jxljjGoZiPXcdEiOPKnPQEYetPxZkGOaLd/GCKXuBvwH7Vu"})
+		db.Create(&types.User{Name: "admin", Email: "admin@local.com", User_group_id: 1, Password: "$2a$10$6x81Z5jxljjGoZiPXcdEiOPKnPQEYetPxZkGOaLd/GCKXuBvwH7Vu"})
+		db.Create(&types.User{Name: "user", Email: "user@local.com", User_group_id: 2, Password: "$2a$10$6x81Z5jxljjGoZiPXcdEiOPKnPQEYetPxZkGOaLd/GCKXuBvwH7Vu"})
 	}
 
 	rbac.Auth.CreateRole("ADMIN")
@@ -40,16 +42,16 @@ func initDefaultData() {
 	//assign permission roles admin
 	rbac.Auth.AssignPermissions("ADMIN", []string{
 		"GetRoles",
-	    "CreateRole",
-	    "DeleteRole",
-	    "GetPermissions",
-	    "GetPermissionsByRoleId",
-	    "SetRolePermission",
-	    "RemoveRolePermission",
-	    "GetUsers",
-	    "GetUser",
-	    "CreateUser",
-	    "UpdateUser",
-	    "DeleteUser",
+		"CreateRole",
+		"DeleteRole",
+		"GetPermissions",
+		"GetPermissionsByRoleId",
+		"SetRolePermission",
+		"RemoveRolePermission",
+		"GetUsers",
+		"GetUser",
+		"CreateUser",
+		"UpdateUser",
+		"DeleteUser",
 	})
 }
