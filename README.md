@@ -7,7 +7,7 @@ Golang Fiber RBAC Monolith
 
 1. cd to project folder, run "go get"
 2. Download swag by using: go install github.com/swaggo/swag/cmd/swag@latest
-3. Create mysql db with name test_db, migration tables run when running app
+3. Default env is development, db using sqlite, if use production, Create mysql db with name test_db, migration tables run when running app
 4. Run project with "go run main.go" OR run "go install github.com/pilu/fresh" for hot reload
 5. Generate swag files with "swag init"
 6. URL :
