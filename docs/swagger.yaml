@@ -1,0 +1,282 @@
+basePath: /
+definitions:
+  pagination.Paginator:
+    properties:
+      limit:
+        type: integer
+      next_page:
+        type: integer
+      offset:
+        type: integer
+      page:
+        type: integer
+      prev_page:
+        type: integer
+      records: {}
+      total_page:
+        type: integer
+      total_record:
+        type: integer
+    type: object
+  types.AuthResponse:
+    properties:
+      User:
+        $ref: '#/definitions/types.UserResponse'
+      status:
+        type: string
+      statusCode:
+        type: integer
+      token:
+        type: string
+    type: object
+  types.MsgResponse:
+    properties:
+      message:
+        type: string
+      status:
+        type: string
+      statusCode:
+        type: integer
+    type: object
+  types.UserResp:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/pagination.Paginator'
+        type: array
+      status:
+        type: string
+      statusCode:
+        type: integer
+    type: object
+  types.UserResponse:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact:
+    email: ludvi.alvin.office@gmail.com
+    name: API Support
+  description: This is a sample swagger for Fiber Go
+  termsOfService: https://mirav.in/terms
+  title: Golang REST API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Login
+      operationId: login
+      parameters:
+      - description: email
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: password
+        in: formData
+        name: password
+        required: true
+        type: string
+      - description: API Key
+        in: header
+        name: X-API-KEY
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.AuthResponse'
+        "401":
+          description: Not authorized
+          schema:
+            type: string
+      summary: Login
+      tags:
+      - Auth
+  /user:
+    get:
+      description: Get list users data
+      operationId: get-user
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Sort By
+        in: query
+        name: sortby
+        type: string
+      - description: Sort Dir asc/desc
+        in: query
+        name: sortdir
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.UserResp'
+        "401":
+          description: Not authorized
+          schema:
+            type: string
+      security:
+      - TokenAuth: []
+      summary: Get list
+      tags:
+      - User
+    post:
+      description: Create user
+      operationId: create-user
+      parameters:
+      - description: User Json
+        in: body
+        name: Body
+        required: true
+        schema:
+          example: "{\r\n\"name\":\"User Name\",\r\n\"email\":\"user@example.com\",\r\n\"password\":\"123456\"\r\n}"
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.MsgResponse'
+        "401":
+          description: Not authorized
+          schema:
+            type: string
+      security:
+      - TokenAuth: []
+      summary: Create
+      tags:
+      - User
+  /user/{id}:
+    delete:
+      description: Delete user
+      operationId: delete-user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.MsgResponse'
+        "400":
+          description: We need ID!!
+          schema:
+            type: string
+        "401":
+          description: Not authorized
+          schema:
+            type: string
+        "404":
+          description: Can not find ID
+          schema:
+            type: string
+      security:
+      - TokenAuth: []
+      summary: Delete
+      tags:
+      - User
+    get:
+      description: Get users data by user id
+      operationId: get-user-by-id
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.UserResp'
+        "400":
+          description: We need ID!!
+          schema:
+            type: string
+        "401":
+          description: Not authorized
+          schema:
+            type: string
+        "404":
+          description: Can not find ID
+          schema:
+            type: string
+      security:
+      - TokenAuth: []
+      summary: Get one
+      tags:
+      - User
+    patch:
+      description: Update user
+      operationId: update-user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User Json
+        in: body
+        name: email
+        required: true
+        schema:
+          example: "{\r\n\"name\":\"User Name\",\r\n\"email\":\"user@example.com\",\r\n\"password\":\"123456\"\r\n}"
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.MsgResponse'
+        "400":
+          description: We need ID!!
+          schema:
+            type: string
+        "401":
+          description: Not authorized
+          schema:
+            type: string
+        "404":
+          description: Can not find ID
+          schema:
+            type: string
+      security:
+      - TokenAuth: []
+      summary: Update
+      tags:
+      - User
+securityDefinitions:
+  TokenAuth:
+    description: TokenAuth protects our entity endpoints
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
