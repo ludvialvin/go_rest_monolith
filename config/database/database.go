@@ -21,7 +21,7 @@ func ConnectDb() {
 	if config.ENVIRONMENT == "development" {
 		ConnectSQlite()
 	} else if config.ENVIRONMENT == "production" {
-		//ConnectMysql()
+		ConnectMysql()
 	} else {
 		ConnectSQlite()
 	}
