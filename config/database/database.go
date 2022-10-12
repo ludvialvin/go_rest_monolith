@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	//"gorm.io/driver/mysql"
+	"gorm.io/driver/mysql"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 
@@ -21,7 +21,7 @@ func ConnectDb() {
 	if config.ENVIRONMENT == "development" {
 		ConnectSQlite()
 	} else if config.ENVIRONMENT == "production" {
-		ConnectMysql()
+		//ConnectMysql()
 	} else {
 		ConnectSQlite()
 	}
@@ -29,7 +29,7 @@ func ConnectDb() {
 
 // connect mysql
 func ConnectMysql() {
-	/* dsn := "root:mysql@tcp(localhost:3306)/test_db?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:mysql@tcp(localhost:3306)/test_db?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
@@ -38,7 +38,7 @@ func ConnectMysql() {
 	} else {
 		log.Println("Mysql connected")
 		Gorm2 = db
-	} */
+	}
 }
 
 func ConnectSQlite() {
